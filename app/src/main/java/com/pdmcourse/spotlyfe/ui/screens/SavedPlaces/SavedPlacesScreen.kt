@@ -1,15 +1,23 @@
 package com.pdmcourse.spotlyfe.ui.screens.SavedPlaces
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -22,11 +30,16 @@ import com.google.maps.android.compose.rememberCameraPositionState
 import com.pdmcourse.spotlyfe.data.model.Place
 import com.pdmcourse.spotlyfe.ui.layout.CustomFloatingButton
 import com.pdmcourse.spotlyfe.ui.layout.CustomTopBar
+import com.pdmcourse.spotlyfe.ui.navigation.SavePlaceFormNavigation
+import com.pdmcourse.spotlyfe.ui.navigation.SavedPlacesScreenNavigation
 
 @Composable
-fun SavedPlacesScreen() {
-
+fun SavedPlacesScreen(
+  navigate: () -> Unit,
+  viewModel: SavedPlacesViewModel = viewModel(factory = SavedPlacesViewModel.Factory)
+) {
   val UCA = Place(
+    id = 1,
     name = "Centro Monseñor Romero",
     remark = "Marker in Centro Monseñor Romero",
     latitude = 13.679024407659101,
@@ -46,7 +59,7 @@ fun SavedPlacesScreen() {
 
   Scaffold(
     topBar = { CustomTopBar() },
-    floatingActionButton = { CustomFloatingButton(onClick = {})}
+    floatingActionButton = { CustomFloatingButton(onClick = navigate)}
   ) { innerPadding ->
     Column(modifier = Modifier.padding(innerPadding)) {
 
