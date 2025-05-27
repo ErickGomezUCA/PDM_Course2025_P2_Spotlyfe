@@ -1,5 +1,6 @@
 package com.pdmcourse.spotlyfe.ui.screens.SavePlaceForm
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -27,7 +28,7 @@ class SavePlaceFormViewModel(
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = this[APPLICATION_KEY] as SpotLyfeApplication
-                SavedPlacesViewModel(application.appProvider.providePlaceRepository())
+                SavePlaceFormViewModel(application.appProvider.providePlaceRepository())
             }
         }
     }

@@ -38,6 +38,11 @@ fun SavedPlacesScreen(
   navigate: () -> Unit,
   viewModel: SavedPlacesViewModel = viewModel(factory = SavedPlacesViewModel.Factory)
 ) {
+
+  val places = viewModel.places.collectAsStateWithLifecycle()
+
+  Log.d("test1", places.toString())
+
   val UCA = Place(
     id = 1,
     name = "Centro Monseñor Romero",
@@ -69,11 +74,13 @@ fun SavedPlacesScreen(
         properties = properties,
         uiSettings = uiSettings
       ) {
-        Marker(
-          state = MarkerState(position = LatLng(UCA.latitude, UCA.longitude)),
-          title = UCA.name,
-          snippet = UCA.remark
-        )
+        places.value.forEach {
+          Marker(
+            state = MarkerState(position = LatLng(it.latitude, it.longitude)),
+            title = it.name,
+            snippet = it.remark
+          )
+        }
       }
     }
   }

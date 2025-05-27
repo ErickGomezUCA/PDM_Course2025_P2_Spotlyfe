@@ -26,12 +26,13 @@ import com.pdmcourse.spotlyfe.ui.layout.CustomTopBar
 fun SavePlaceFormScreen(
     navigateReturn: () -> Unit,
     modifier: Modifier = Modifier,
-//    viewModel: SavePlaceFormViewModel = viewModel(factory = SavePlaceFormViewModel.Factory)
+    viewModel: SavePlaceFormViewModel = viewModel(factory = SavePlaceFormViewModel.Factory)
 ) {
     val name = remember { mutableStateOf("") }
     val description = remember { mutableStateOf("") }
     val latitude = remember { mutableStateOf(0.0) }
     val longitud = remember { mutableStateOf(0.0) }
+    val ids = remember {mutableStateOf(0)}
 
     Scaffold(
         topBar = { CustomTopBar(title = "test", onBackPressed = navigateReturn) }
@@ -62,14 +63,16 @@ fun SavePlaceFormScreen(
 
             Button(onClick = {
             val place = Place(
-                id = 2,
+                id = ids.value,
                 name = name.value,
                 remark = description.value,
                 latitude = latitude.value,
                 longitude = longitud.value
             )
 
-//            viewModel.savePlace(place)
+                ids.value = ids.value + 1
+
+            viewModel.savePlace(place)
             navigateReturn()
             }, modifier = Modifier.fillMaxWidth()) {
                 Text(text = "Save")
